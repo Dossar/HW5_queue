@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 #include <stdlib.h> 
-    
+
     typedef struct node {
         QueueData data;
         struct node *next;
@@ -31,7 +31,7 @@ extern "C" {
         qp -> tail = NULL;
         return qp; // return our new queue
     }
-    
+
     /*Decides if the queue is empty or not*/
     int isEmpty(Queue Q) {
         return (Q -> head == NULL); // check if head is null
@@ -43,10 +43,10 @@ extern "C" {
         // add data to this new value
         np -> data = d;
         np -> next = NULL;
-        
+
         if (isEmpty(Q)) { // check if queue is empty first
             // if it is empty head and tail are the same.
-            Q -> head = np; 
+            Q -> head = np;
             Q -> tail = np;
         } else {
             // otherwise set only the tail
@@ -70,6 +70,14 @@ extern "C" {
         return hold; // return our temp data
     }
 
+    /*Returns the value at the head of the queue without removing it*/
+    QueueData getFront(Queue Q) {
+        if (isEmpty(Q)) { // check if its empty first
+            printf("\nAttempt to remove from an empty queue\n");
+            exit(1); // exits the program here (perhaps add error case?)
+        }
+        return Q->head->data; // simply return the queue data that is the current head
+    }
 
 #ifdef	__cplusplus
 }

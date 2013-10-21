@@ -35,7 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/airplane.o
+	${OBJECTDIR}/airplane.o \
+	${OBJECTDIR}/queueTestArray.o \
+	${OBJECTDIR}/queueTestLinked.o
 
 
 # C Compiler Flags
@@ -66,6 +68,16 @@ ${OBJECTDIR}/airplane.o: airplane.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/airplane.o airplane.c
+
+${OBJECTDIR}/queueTestArray.o: queueTestArray.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/queueTestArray.o queueTestArray.c
+
+${OBJECTDIR}/queueTestLinked.o: queueTestLinked.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/queueTestLinked.o queueTestLinked.c
 
 # Subprojects
 .build-subprojects:

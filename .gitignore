@@ -16,3 +16,5 @@
 *.exe
 *.out
 *.app
+/airplane_queue/build/
+/airplane_queue/dist/

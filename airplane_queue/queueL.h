@@ -16,11 +16,12 @@ extern "C" {
 
     typedef struct node {
         QueueData data;
-        struct node *next;
+        struct node *next;        
     } Node, *NodePtr;
 
     typedef struct queueType {
         NodePtr head, tail;
+        int size;
     } QueueType, *Queue;
 
     /*Sets up and initializes the queue*/
@@ -29,6 +30,7 @@ extern "C" {
         // set head and tail to null
         qp -> head = NULL;
         qp -> tail = NULL;
+        qp -> size = 0;
         return qp; // return our new queue
     }
 
@@ -42,7 +44,7 @@ extern "C" {
         NodePtr np = (NodePtr) malloc(sizeof (Node)); // allocate needed space for new value
         // add data to this new value
         np -> data = d;
-        np -> next = NULL;
+        np -> next = NULL;        
 
         if (isEmpty(Q)) { // check if queue is empty first
             // if it is empty head and tail are the same.
@@ -53,6 +55,7 @@ extern "C" {
             Q -> tail -> next = np;
             Q -> tail = np;
         }
+        Q->size++;
     }
 
     /*Remove a value from the head of the queue*/
@@ -67,6 +70,7 @@ extern "C" {
         Q -> head = Q -> head -> next; // push the head of the queue to the next value
         if (Q -> head == NULL) Q -> tail = NULL; // if head is now null then so is tail
         free(temp); // free associated memory
+        Q->size--; // shorten queue size
         return hold; // return our temp data
     }
 
@@ -77,6 +81,13 @@ extern "C" {
             exit(1); // exits the program here (perhaps add error case?)
         }
         return Q->head->data; // simply return the queue data that is the current head
+    }
+    
+    int getQueueSize(Queue Q){
+        return Q->size;
+    }
+    void setQueueSize(Queue Q, int size){
+        Q->size = size;
     }
 
 #ifdef	__cplusplus

@@ -106,8 +106,8 @@ int main(int argc, char** argv) {
 simulate(int timeDuration, double arrivalAirProb, double arrivalGroundProb) {
    //SIMULATION VARIABLES
    int timeCounter = 0;
-   int totalAir = 0;
-   int totalGround = 0;
+   //int totalAir = 0;
+   //int totalGround = 0;
    // init all queues
    Queue airQueue = (Queue) malloc(sizeof (QueueType)); // allocate base size of queue;
    Queue groundQueue = (Queue) malloc(sizeof (QueueType));
@@ -135,17 +135,15 @@ simulate(int timeDuration, double arrivalAirProb, double arrivalGroundProb) {
 		 if (randomAir < arrivalAirProb * arrivalAirProb) {
 			QueueData airplane = malloc(sizeof (QueueData)); // allocate space for new airplane
 			airplane->num = rand() % 1000; // returns a random number between 0 and 999
-			enqueue(airQueue, airplane); // add plane to queue
-			totalAir++;
+			enqueue(airQueue, airplane); // add plane to queue	
 			printf("Airplane #%d joined air queue.\n", airplane->num);
 		 }
 		 QueueData airplane = malloc(sizeof (QueueData)); // allocate space for new airplane
 		 airplane->num = rand() % 1000; // returns a random number between 0 and 999
-		 enqueue(airQueue, airplane); // add plane to queue
-		 totalAir++;
+		 enqueue(airQueue, airplane); // add plane to queue		 
 		 printf("Airplane #%d joined air queue.\n", airplane->num);
 	  }
-	  printf("Total planes waiting to land = %d\n", totalAir);
+	  printf("Total planes waiting to land = %d\n", getQueueSize(airQueue));
 
 #if VERBOSE	  
 	  printf("randomGround = %f and arrivalGroundProb = %f\n", randomGround, arrivalGroundProb);
@@ -155,11 +153,10 @@ simulate(int timeDuration, double arrivalAirProb, double arrivalGroundProb) {
 	  if (randomGround < arrivalGroundProb) {
 		 QueueData airplane = malloc(sizeof (QueueData));
 		 airplane->num = rand() % 1000; // returns a random number between 0 and 999
-		 enqueue(groundQueue, airplane);
-		 totalGround++;
+		 enqueue(groundQueue, airplane);		 
 		 printf("Airplane #%d joined ground queue.\n", airplane->num);
 	  }
-	  printf("Total planes waiting to take off = %d\n", totalGround);
+	  printf("Total planes waiting to take off = %d\n", getQueueSize(groundQueue));
 
 
 
@@ -171,14 +168,13 @@ simulate(int timeDuration, double arrivalAirProb, double arrivalGroundProb) {
 			runway->vacant = false; // as the runway is now occupied.
 
 		 } else {
-			if (totalGround != 0) {
+			if (getQueueSize(groundQueue) != 0) {
 			   printf("Runway occupied. Time till vacant: %d\n", runway->busyTime);
 			   runway->busyTime = runway->busyTime--; // as time has passed we must remove a second.
 			   printf("Airplane #%d currently taking off.\n", runway->plane);
 			   if (runway->busyTime == 0) { // if the plane is now in the air
 				  runway->vacant = true; // runway is now vacant.
 				  runway->plane = -1; // no plane on the runway.
-				  totalGround--; // remove one from the current count of ground planes
 			   }
 			}
 		 }
@@ -190,14 +186,13 @@ simulate(int timeDuration, double arrivalAirProb, double arrivalGroundProb) {
 			runway->vacant = false;
 
 		 } else {
-			if (totalAir != 0) {
+			if (getQueueSize(airQueue) != 0) {
 			   printf("Runway occupied. Time till vacant: %d\n", runway->busyTime);
 			   runway->busyTime = runway->busyTime--;
 			   printf("Airplane #%d currently landing.\n", runway->plane);
 			   if (runway->busyTime == 0) { // if the plane is now in the air
 				  runway->vacant = true; // runway is now vacant.
 				  runway->plane = -1; // no plane on the runway.
-				  totalAir--; // remove one from the current count of in air planes
 			   }
 			}
 		 }

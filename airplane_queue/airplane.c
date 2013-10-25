@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h> 
 #include <stdbool.h>
+#include <unistd.h>
 
 // turn on verbose to get the output of the random values associated with the generation of the airplanes
 #define VERBOSE 0

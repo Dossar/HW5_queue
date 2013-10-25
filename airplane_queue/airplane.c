@@ -8,7 +8,14 @@
 #include <stdlib.h>
 #include <stdio.h> 
 #include <stdbool.h>
+
+// This following code is to resolve the "undefined references" problem for sleep on windows
+#ifdef __unix__
 #include <unistd.h>
+#elif defined _WIN32
+#include <windows.h>
+#define sleep(x) Sleep(1000 * x)
+#endif
 
 // turn on verbose to get the output of the random values associated with the generation of the airplanes
 #define VERBOSE 0
